@@ -1,0 +1,55 @@
+Connecting to SQL Database
+-- Creating a table
+CREATE TABLE delivery_data (
+    Order_ID INT PRIMARY KEY,
+    Order_Date DATE,
+    Delivery_Date DATE,
+    Distance_km FLOAT,
+    Traffic_Level VARCHAR(10),
+    Warehouse_Processing_Time INT,
+    Delivery_Cost FLOAT,
+    On_Time_Delivery VARCHAR(3)
+);
+
+-- Insert sample data
+INSERT INTO delivery_data (Order_ID, Order_Date, Delivery_Date, Distance_km, Traffic_Level, Warehouse_Processing_Time, Delivery_Cost, On_Time_Delivery)
+VALUES
+(1001, '2025-01-01', '2025-01-02', 12.5, 'High', 30, 5.00, 'No'),
+(1002, '2025-01-02', '2025-01-03', 7.2, 'Low', 15, 3.50, 'Yes');
+
+1️ Find average delivery duration per traffic level:
+SELECT Traffic_Level, AVG(DATEDIFF(Delivery_Date, Order_Date)) AS Avg_Delivery_Duration
+FROM delivery_data
+GROUP BY Traffic_Level;
+
+2️ Identify bottlenecks:
+SELECT Traffic_Level, COUNT(*) AS Delayed_Orders
+FROM delivery_data
+WHERE On_Time_Delivery = 'No'
+GROUP BY Traffic_Level
+ORDER BY Delayed_Orders DESC;
+
+3️ Optimize delivery cost by warehouse processing time:
+SELECT Warehouse_Processing_Time, AVG(Delivery_Cost) AS Avg_Delivery_Cost
+FROM delivery_data
+GROUP BY Warehouse_Processing_Time
+ORDER BY Warehouse_Processing_Time ASC;
+
+4. Find the Fastest and Slowest Deliveries
+SELECT Order_ID, Delivery_Date, Order_Date, 
+DATEDIFF(Delivery_Date, Order_Date) AS Delivery_Duration
+FROM delivery_data
+ORDER BY Delivery_Duration ASC; 
+
+5. Find the Most Expensive Deliveries
+SELECT Order_ID, Delivery_Cost, Distance_km, Traffic_Level
+FROM delivery_data
+ORDER BY Delivery_Cost DESC
+LIMIT 10;
+
+6. Check On-Time Delivery Performance
+SELECT On_Time_Delivery, COUNT(*) AS Order_Count
+FROM delivery_data
+GROUP BY On_Time_Delivery;
+
+
