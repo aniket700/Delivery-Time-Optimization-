@@ -1,0 +1,60 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.read_csv(""/content/delivery_data.csv"")
+df["Order_Date"] = pd.to_datetime(df["Order_Date"])
+df["Delivery_Date"] = pd.to_datetime(df["Delivery_Date"])
+df["Delivery_Duration"] = (df["Delivery_Date"] - df["Order_Date"]).dt.days
+df.fillna(method="ffill", inplace=True)
+
+<ipython-input-6-f1ce73c3d712>:1: FutureWarning: DataFrame.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  df.fillna(method="ffill", inplace=True)
+
+print(df.describe())
+ Order_ID           Order_Date        Delivery_Date  Distance_km  \
+count    50.00000                   50                   50     50.00000   
+mean   1025.50000  2025-01-25 12:00:00  2025-01-26 12:00:00     26.78000   
+min    1001.00000  2025-01-01 00:00:00  2025-01-02 00:00:00      6.00000   
+25%    1013.25000  2025-01-13 06:00:00  2025-01-14 06:00:00     15.25000   
+50%    1025.50000  2025-01-25 12:00:00  2025-01-26 12:00:00     25.50000   
+75%    1037.75000  2025-02-06 18:00:00  2025-02-07 18:00:00     39.25000   
+max    1050.00000  2025-02-19 00:00:00  2025-02-20 00:00:00     48.00000   
+std      14.57738                  NaN                  NaN     13.05919   
+
+       Warehouse_Processing_Time  Delivery_Cost  Delivery_Duration  
+count                  50.000000      50.000000               50.0  
+mean                   36.840000      10.388400                1.0  
+min                    10.000000       3.560000                1.0  
+25%                    26.500000       7.095000                1.0  
+50%                    38.000000      11.140000                1.0  
+75%                    48.000000      13.685000                1.0  
+max                    60.000000      15.950000                1.0  
+std                    13.726721       3.655314                0.0  
+
+print(df.isnull().sum())
+Order_ID                     0
+Order_Date                   0
+Delivery_Date                0
+Distance_km                  0
+Traffic_Level                0
+Warehouse_Processing_Time    0
+Delivery_Cost                0
+On_Time_Delivery             0
+Delivery_Duration            0
+dtype: int64
+
+
+sns.histplot(df["Delivery_Duration"], bins=10, kde=True)
+plt.title("Distribution of Delivery Duration")
+plt.xlabel("Days")
+plt.ylabel("Frequency")
+plt.show()
+
+
+sns.boxplot(x="Traffic_Level", y="Delivery_Duration", data=df)
+plt.title("Effect of Traffic on Delivery Time")
+plt.show()
+
+sns.scatterplot(x="Warehouse_Processing_Time", y="Delivery_Cost", hue="On_Time_Delivery", data=df)
+plt.title("Warehouse Processing Time vs Delivery Cost")
+plt.show()
