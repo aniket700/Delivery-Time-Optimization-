@@ -6,3 +6,8 @@ Tools: Python (Pandas, Seaborn), SQL, Tableau
 ✅ Python: Clean & visualize data
 ✅ SQL: Find bottlenecks & optimize delivery
 ✅ Tableau: Create an interactive dashboard
+
+![image](https://github.com/user-attachments/assets/690fec70-00f1-4f20-bfd7-e517d93c5bc9)
+![image](https://github.com/user-attachments/assets/87c7266b-06f7-4a44-a255-9f02c933d636)
+![image](https://github.com/user-attachments/assets/7de8b10c-34d0-4961-a93f-f26fae59c25c)
+
